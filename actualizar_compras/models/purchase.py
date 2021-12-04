@@ -47,3 +47,8 @@ class purchase_order_line(models.Model):
     _inherit = 'purchase.order.line'
 
     update_cost_price = fields.Boolean(string="Actualizar costo?", default= True, help="Select to update cost price of product after confirming invoice")
+
+class ProductTemplate(models.Model):
+    _inherit = "product.template"
+
+    percent_price = fields.Float(string=u'% Precio')
