@@ -1,0 +1,131 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <record id="acint_purchase_order_line_tree" model="ir.ui.view">
+        <field name="name">acint.purchase.order.line.tree</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='price_unit']" position="after">
+                <field name="unit_price_dop"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="acint_product" model="ir.ui.view">
+        <field name="name">acint.product.order</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='standard_price']" position="after">
+              <group>                <p></p>
+                <field name="coste_real_fake" invisible="True" string="Coste Real" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                <p></p>
+                <field name="coste_real" string="Coste Real" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+              </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="factor_importacion.list">
+      <field name="name">acint_purchase list</field>
+      <field name="model">acint_purchase.acint_purchase</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name" />
+          <field name="purchase_orders" widget="many2many_tags" />
+          <field name="usd_rate" />
+          <field name="factor_import_amount" />
+          <field name="state" />
+        </tree>
+      </field>
+    </record>
+
+    <record id="acint_purchase_import_factor_form" model="ir.ui.view">
+        <field name="name">acint.purchase.import.factor.form</field>
+        <field name="model">acint_purchase.acint_purchase</field>
+        <field name="arch" type="xml">
+            <form string="model_form">
+                <header>
+                    <button name="draft" type="object" string="Editar" states="completed" class="oe_highlight" />
+                    <button name="complete" type="object" string="Completar" states="draft" class="oe_highlight" />
+                    <field name="state" widget="statusbar" readonly="1"/>
+                </header>
+                <sheet>
+                    <group col="4">
+                        <field name="name" />
+                        <!-- <field name="purchase_orders" widget="many2many_tags" domain="[('state', 'in', ('draft','sent'))]" /> -->
+                        <field name="purchase_orders_total_usd" />
+                        <field name="handling_transfer_amount" />
+                        <field name="usd_rate" />
+                        <field name="purchase_orders_total_dop" />
+
+                    </group>
+
+                    <notebook>
+                        <page string="Otros gastos (DOP)">
+                            <field name="expenses_purchase" >
+                              <tree string="Otros Gastos" editable="bottom">
+                                  <field name="expenses_list" />
+                                  <field name="expenses_amount" sum='Total' />
+                              </tree>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <div class="oe_subtotal_footer_separator oe_inline">
+                                    <label for="factor_import_amount"/>
+                                </div>
+                                <field name="factor_import_amount" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" />
+                            </group>
+                        </page>
+
+                        <page string="Ordenes de Compras">
+                            <field name="purchase_orders" domain="[('state', 'in', ('draft','sent'))]" />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="factor_importacion.action_window">
+      <field name="name">acint_purchase window</field>
+      <field name="res_model">acint_purchase.acint_purchase</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="acint_purchase.action_server">
+      <field name="name">acint_purchase server</field>
+      <field name="model_id" ref="model_acint_purchase_acint_purchase"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="acint_purchase" id="acint_purchase.menu_root"/>
+-->
+    <!-- menu categories -->
+
+    <menuitem name="Factor de Importacion" id="factor_importacion.menu_1" parent="purchase.menu_purchase_root"/>
+
+    <!-- actions -->
+
+    <menuitem name="Factor de Importacion" id="factor_importacion.menu_1_list" parent="factor_importacion.menu_1"
+              action="factor_importacion.action_window"/>
+
+
+  </data>
+</odoo>

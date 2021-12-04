@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<odoo>
+<data>
+    <!-- Add update product cost price option in purchase order line. -->
+    <record id="view_purchase_update_product_price" model="ir.ui.view">
+        <field name="name">view.purchase.product.prices</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='state']" position="after">
+                <field name="update_cost_price"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_purchase_update_product_price_form" model="ir.ui.view">
+        <field name="name">view.purchase.product.prices.form</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='button_done']" position="after">
+                <button name="update_product_cost_price" states="purchase,done" string="Actualizar precio" type="object" />
+            </xpath>
+        </field>
+    </record>
+
+</data>
+</odoo>

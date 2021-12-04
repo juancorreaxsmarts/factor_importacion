@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="import_factor_number" model="ir.sequence">
+        <field name="name">Import Factor sequence</field>
+        <field name="code">import.factor.number</field>
+        <field name="prefix">FI</field>
+        <field eval="1" name="number_next"/>
+        <field eval="1" name="number_increment"/>
+        <field name="padding">8</field>
+    </record>
+</odoo>

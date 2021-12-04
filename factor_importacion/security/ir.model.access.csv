@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_acint_purchase_acint_purchase,acint_purchase.acint_purchase,model_acint_purchase_acint_purchase,base.group_user,1,1,1,1
+
+acint_purchase_import_expenses_v,acint.purchase.import.expenses.v,model_acint_purchase_import_expenses_v,base.group_user,1,1,1,1
